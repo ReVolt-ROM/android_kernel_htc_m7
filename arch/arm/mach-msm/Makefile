@@ -467,3 +467,5 @@ obj-$(CONFIG_HTC_MONITOR) += htc_monitor.o
 obj-y += display/
 
 obj-$(CONFIG_IO_FOOTPRINT) += io_footprint.o
+
+obj-$(CONFIG_FORCE_FAST_CHARGE) += fastchg.o
