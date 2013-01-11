@@ -1061,6 +1061,7 @@ int compact_node(int nid, bool sync)
 	return __compact_pgdat(NODE_DATA(nid), &cc);
 }
 
+/* Compact all nodes in the system */
 int compact_nodes(bool sync)
 {
 	int nid;
@@ -1082,7 +1083,6 @@ int sysctl_compaction_handler(struct ctl_table *table, int write,
 {
 	if (write)
 		return compact_nodes(true);
-
 	return 0;
 }
 
