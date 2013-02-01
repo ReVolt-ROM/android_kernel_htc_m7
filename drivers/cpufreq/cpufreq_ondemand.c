@@ -1364,17 +1364,19 @@ static int cpufreq_governor_dbs(struct cpufreq_policy *policy,
 				return rc;
 			}
 
+			if (!policy->governor->initialized) {
+				latency = policy->cpuinfo.transition_latency / 1000;
+				if (latency == 0)
+					latency = 1;
 			
-			latency = policy->cpuinfo.transition_latency / 1000;
-			if (latency == 0)
-				latency = 1;
-			
-			min_sampling_rate = max(min_sampling_rate,
-					MIN_LATENCY_MULTIPLIER * latency);
-			dbs_tuners_ins.sampling_rate =
-				max(min_sampling_rate,
-				    latency * LATENCY_MULTIPLIER);
+				min_sampling_rate = max(min_sampling_rate,
+						MIN_LATENCY_MULTIPLIER * latency);
+				dbs_tuners_ins.sampling_rate =
+					max(min_sampling_rate,
+					    latency * LATENCY_MULTIPLIER);
 			dbs_tuners_ins.origin_sampling_rate = dbs_tuners_ins.sampling_rate;
+			}
+
 			dbs_tuners_ins.io_is_busy = should_io_be_busy();
 
 			if (dbs_tuners_ins.optimal_freq == 0)

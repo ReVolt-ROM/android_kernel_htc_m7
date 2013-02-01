@@ -1176,12 +1176,14 @@ static int cpufreq_governor_smartmax(struct cpufreq_policy *new_policy,
 #ifdef CONFIG_HAS_EARLYSUSPEND
 			register_early_suspend(&smartmax_early_suspend_handler);
 #endif
-			latency = new_policy->cpuinfo.transition_latency / 1000;
-			if (latency == 0)
-				latency = 1;
+			if (!policy->governor->initialized) {
+				latency = new_policy->cpuinfo.transition_latency / 1000;
+				if (latency == 0)
+					latency = 1;
 			
-			min_sampling_rate = max(sampling_rate, MIN_LATENCY_MULTIPLIER * latency);
-			sampling_rate = max(min_sampling_rate, latency * LATENCY_MULTIPLIER);
+				min_sampling_rate = max(sampling_rate, MIN_LATENCY_MULTIPLIER * latency);
+				sampling_rate = max(min_sampling_rate, latency * LATENCY_MULTIPLIER);
+			}
 		}
 
 		mutex_unlock(&dbs_mutex);
