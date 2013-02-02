@@ -1,6 +1,8 @@
 #ifndef _ASM_WORD_AT_A_TIME_H
 #define _ASM_WORD_AT_A_TIME_H
 
+#include <linux/kernel.h>
+
 /*
  * This is largely generic for little-endian machines, but the
  * optimal byte mask counting is probably going to be something
@@ -63,7 +65,6 @@ static inline unsigned long create_zero_mask(unsigned long bits)
 #define zero_bytemask(mask) (mask)
 
 static inline unsigned long find_zero(unsigned long mask)
->>>>>>> b587970... word-at-a-time: make the interfaces truly generic
 {
 	return count_masked_bytes(mask);
 }
