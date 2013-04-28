@@ -22,6 +22,9 @@
 #include "acpuclock.h"
 #include "acpuclock-krait.h"
 
+#include <mach/msm-config.h>
+
+
 static struct hfpll_data hfpll_data __initdata = {
 	.mode_offset = 0x00,
 	.l_offset = 0x08,
@@ -47,9 +50,9 @@ static struct scalable scalable[] __initdata = {
 		.aux_clk_sel = 3,
 		.sec_clk_sel = 2,
 		.l2cpmr_iaddr = 0x4501,
-		.vreg[VREG_CORE] = { "krait0", 1337500 },
-		.vreg[VREG_MEM]  = { "krait0_mem", 1150000 },
-		.vreg[VREG_DIG]  = { "krait0_dig", 1150000 },
+		.vreg[VREG_CORE] = { "krait0", VREG_CORE_MAX },
+		.vreg[VREG_MEM]  = { "krait0_mem", VDD_MEM_MAX },
+		.vreg[VREG_DIG]  = { "krait0_dig", VDD_DIG_MAX },
 		.vreg[VREG_HFPLL_A] = { "krait0_hfpll", 1800000 },
 	},
 	[CPU1] = {
@@ -58,9 +61,9 @@ static struct scalable scalable[] __initdata = {
 		.aux_clk_sel = 3,
 		.sec_clk_sel = 2,
 		.l2cpmr_iaddr = 0x5501,
-		.vreg[VREG_CORE] = { "krait1", 1337500 },
-		.vreg[VREG_MEM]  = { "krait1_mem", 1150000 },
-		.vreg[VREG_DIG]  = { "krait1_dig", 1150000 },
+		.vreg[VREG_CORE] = { "krait1", VREG_CORE_MAX },
+		.vreg[VREG_MEM]  = { "krait1_mem", VDD_MEM_MAX },
+		.vreg[VREG_DIG]  = { "krait1_dig", VDD_DIG_MAX },
 		.vreg[VREG_HFPLL_A] = { "krait1_hfpll", 1800000 },
 	},
 	[CPU2] = {
@@ -69,9 +72,9 @@ static struct scalable scalable[] __initdata = {
 		.aux_clk_sel = 3,
 		.sec_clk_sel = 2,
 		.l2cpmr_iaddr = 0x6501,
-		.vreg[VREG_CORE] = { "krait2", 1337500 },
-		.vreg[VREG_MEM]  = { "krait2_mem", 1150000 },
-		.vreg[VREG_DIG]  = { "krait2_dig", 1150000 },
+		.vreg[VREG_CORE] = { "krait2", VREG_CORE_MAX },
+		.vreg[VREG_MEM]  = { "krait2_mem", VDD_MEM_MAX },
+		.vreg[VREG_DIG]  = { "krait2_dig", VDD_DIG_MAX },
 		.vreg[VREG_HFPLL_A] = { "krait2_hfpll", 1800000 },
 	},
 	[CPU3] = {
@@ -80,9 +83,9 @@ static struct scalable scalable[] __initdata = {
 		.aux_clk_sel = 3,
 		.sec_clk_sel = 2,
 		.l2cpmr_iaddr = 0x7501,
-		.vreg[VREG_CORE] = { "krait3", 1337500 },
-		.vreg[VREG_MEM]  = { "krait3_mem", 1150000 },
-		.vreg[VREG_DIG]  = { "krait3_dig", 1150000 },
+		.vreg[VREG_CORE] = { "krait3", VREG_CORE_MAX },
+		.vreg[VREG_MEM]  = { "krait3_mem", VDD_MEM_MAX },
+		.vreg[VREG_DIG]  = { "krait3_dig", VDD_DIG_MAX },
 		.vreg[VREG_HFPLL_A] = { "krait3_hfpll", 1800000 },
 	},
 	[L2] = {

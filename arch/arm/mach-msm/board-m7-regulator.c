@@ -14,6 +14,7 @@
 #include <linux/regulator/pm8xxx-regulator.h>
 
 #include "board-m7.h"
+#include <mach/msm-config.h>
 
 #define VREG_CONSUMERS(_id) \
 	static struct regulator_consumer_supply vreg_consumers_##_id[]
@@ -485,25 +486,25 @@ m7_gpio_regulator_pdata[] __devinitdata = {
 
 struct regulator_init_data m7_saw_regulator_pdata_8921_s5 =
 #ifdef CONFIG_CPU_VOLTAGE_TABLE
-	SAW_VREG_INIT(S5, "8921_s5",	       600000, 1450000);
+	SAW_VREG_INIT(S5, "8921_s5",	       VREG_CORE_MIN, VREG_CORE_MAX);
 #else
 	SAW_VREG_INIT(S5, "8921_s5",	       850000, 1300000);
 #endif
 struct regulator_init_data m7_saw_regulator_pdata_8921_s6 =
 #ifdef CONFIG_CPU_VOLTAGE_TABLE
-	SAW_VREG_INIT(S6, "8921_s6",	       600000, 1450000);
+	SAW_VREG_INIT(S6, "8921_s6",	       VREG_CORE_MIN, VREG_CORE_MAX);
 #else
 	SAW_VREG_INIT(S6, "8921_s6",	       850000, 1300000);
 #endif
 struct regulator_init_data m7_saw_regulator_pdata_8821_s0 =
 #ifdef CONFIG_CPU_VOLTAGE_TABLE	
-	SAW_VREG_INIT(8821_S0, "8821_s0",       600000, 1450000);
+	SAW_VREG_INIT(8821_S0, "8821_s0",       VREG_CORE_MIN, VREG_CORE_MAX);
 #else
 	SAW_VREG_INIT(8821_S0, "8821_s0",       850000, 1300000);
 #endif
 struct regulator_init_data m7_saw_regulator_pdata_8821_s1 =
 #ifdef CONFIG_CPU_VOLTAGE_TABLE	
-	SAW_VREG_INIT(8821_S1, "8821_s1",       600000, 1450000);
+	SAW_VREG_INIT(8821_S1, "8821_s1",       VREG_CORE_MIN, VREG_CORE_MAX);
 #else
 	SAW_VREG_INIT(8821_S1, "8821_s1",       850000, 1300000);
 #endif
@@ -522,7 +523,7 @@ m7_rpm_regulator_init_data[] __devinitdata = {
 	
 	RPM_SMPS(S1, 1, 1, 0, 1225000, 1225000, NULL, 100000, 3p20, NONE, NONE),
 	RPM_SMPS(S2, 0, 1, 0, 1050000, 1200000, NULL, 100000, 1p60, NONE, NONE),
-	RPM_SMPS(S3, 0, 1, 1,  500000, 1150000, NULL, 100000, 4p80, NONE, NONE),
+	RPM_SMPS(S3, 0, 1, 1,  500000, VDD_DIG_MAX, NULL, 100000, 4p80, NONE, NONE),
 	RPM_SMPS(S4, 1, 1, 0, 1800000, 1800000, NULL, 100000, 1p60, AUTO, AUTO),
 	RPM_SMPS(S7, 0, 0, 0, 1300000, 1300000, NULL, 100000, 3p20, NONE, NONE),
 	RPM_SMPS(S8, 0, 1, 0, 2200000, 2200000, NULL,      0, 1p60, NONE, NONE),
@@ -548,7 +549,7 @@ m7_rpm_regulator_init_data[] __devinitdata = {
 	RPM_LDO(L21, 0, 1, 0, 1050000, 1800000, NULL,          0,     0),
 	RPM_LDO(L22, 1, 1, 0, 2850000, 2850000, NULL,          0,     0),
 	
-	RPM_LDO(L24, 0, 1, 1,  750000, 1150000, "8921_s1", 10000, 10000),
+	RPM_LDO(L24, 0, 1, 1,  750000, VDD_MEM_MAX, "8921_s1", 10000, 10000),
 	RPM_LDO(L25, 1, 1, 0, 1225000, 1225000, "8921_s1", 10000, 10000),
 	RPM_LDO(L27, 0, 0, 0, 1050000, 1050000, "8921_s7",     0,     0),
 	
