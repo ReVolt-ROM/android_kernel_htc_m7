@@ -208,6 +208,7 @@ static int __ref take_cpu_down(void *_param)
 }
 
 /* Requires cpu_add_remove_lock to be held */
+int skip_cpu_offline = 0;
 static int __ref _cpu_down(unsigned int cpu, int tasks_frozen)
 {
 	int err, nr_calls = 0;
@@ -217,6 +218,9 @@ static int __ref _cpu_down(unsigned int cpu, int tasks_frozen)
 		.mod = mod,
 		.hcpu = hcpu,
 	};
+
+	if (skip_cpu_offline)
+		return -EACCES;
 
 	if (num_online_cpus() == 1)
 		return -EBUSY;
@@ -269,6 +273,7 @@ out_release:
 	return err;
 }
 
+extern void trace_cpu_down_frequency (unsigned int cpu);
 int __ref cpu_down(unsigned int cpu)
 {
 	int err;
@@ -284,6 +289,11 @@ int __ref cpu_down(unsigned int cpu)
 
 out:
 	cpu_maps_update_done();
+
+	
+	if (!err)
+		trace_cpu_down_frequency (cpu);
+
 	return err;
 }
 EXPORT_SYMBOL(cpu_down);
@@ -325,6 +335,7 @@ out_notify:
 	return ret;
 }
 
+extern void trace_cpu_up_frequency (unsigned int cpu);
 int __cpuinit cpu_up(unsigned int cpu)
 {
 	int err = 0;
@@ -377,6 +388,9 @@ int __cpuinit cpu_up(unsigned int cpu)
 
 out:
 	cpu_maps_update_done();
+	
+	if (!err)
+		trace_cpu_up_frequency (cpu);
 	return err;
 }
 EXPORT_SYMBOL_GPL(cpu_up);

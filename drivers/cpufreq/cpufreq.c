@@ -308,6 +308,23 @@ void cpufreq_notify_transition(struct cpufreq_freqs *freqs, unsigned int state)
 	}
 }
 EXPORT_SYMBOL_GPL(cpufreq_notify_transition);
+
+extern unsigned long acpuclk_get_rate(int cpu);
+void trace_cpu_up_frequency (unsigned int cpu)
+{
+	
+	unsigned int freq = 0;
+	freq = acpuclk_get_rate(cpu);
+
+	trace_cpu_frequency (freq, cpu);
+}
+EXPORT_SYMBOL_GPL(trace_cpu_up_frequency);
+
+void trace_cpu_down_frequency (unsigned int cpu)
+{
+	trace_cpu_frequency (0, cpu);
+}
+EXPORT_SYMBOL_GPL(trace_cpu_down_frequency);
 /**
  * cpufreq_notify_utilization - notify CPU userspace about CPU utilization
  * change
@@ -413,6 +430,13 @@ show_one(scaling_min_freq, min);
 show_one(scaling_max_freq, max);
 show_one(scaling_cur_freq, cur);
 show_one(cpu_utilization, util);
+
+static bool gov_ondemand = false;
+bool is_governor_ondemand(void)
+{
+	return gov_ondemand;
+}
+EXPORT_SYMBOL(is_governor_ondemand);
 
 static int __cpufreq_set_policy(struct cpufreq_policy *data,
 				struct cpufreq_policy *policy);
@@ -1865,6 +1889,11 @@ static int __cpufreq_set_policy(struct cpufreq_policy *data,
 	}
 
 error_out:
+	if(!strncmp(data->governor->name, "ondemand", 8))
+		gov_ondemand = true;
+	else
+		gov_ondemand = false;
+
 	return ret;
 }
 
