@@ -25,7 +25,7 @@
 #define VREG_CORE_MAX		1450000  /* default: 1300000 */
 #define VREG_CORE_MIN		600000  /* default: 850000 */
 
-#define LIMIT_TEMP_MAX		80  /* default: 51 */
+#define LIMIT_TEMP_MAX		60  /* default: 51 */
 
 #define CPU_INITIAL_FREQ_MAX	1782000
 #define CPU_INITIAL_FREQ_MIN	384000
