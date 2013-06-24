@@ -6500,9 +6500,9 @@ static struct pll_config_regs pll15_regs __initdata = {
 };
 
 static struct pll_config pll15_config __initdata = {
-	.l = (0x24 | BVAL(31, 7, 0x620)),
+	.l = (0x21 | BVAL(31, 7, 0x620)),
 	.m = 0x1,
-	.n = 0x9,
+	.n = 0x3,
 	.vco_val = BVAL(17, 16, 0x2),
 	.vco_mask = BM(17, 16),
 	.pre_div_val = 0x0,
