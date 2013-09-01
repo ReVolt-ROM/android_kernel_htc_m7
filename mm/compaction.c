@@ -1004,7 +1004,6 @@ int compact_node(int nid, bool sync)
 	struct compact_control cc = {
 		.order = -1,
 		.sync = sync,
-		.page = NULL,
 	};
 
 	return __compact_pgdat(NODE_DATA(nid), &cc);
