@@ -1,4 +1,4 @@
-/* Copyright (c) 2012, Code Aurora Forum. All rights reserved.
+/* Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -18,6 +18,7 @@
 #include <mach/board.h>
 #include <mach/msm_dcvs.h>
 #include <mach/socinfo.h>
+
 #include "devices.h"
 #include "board-m7.h"
 
@@ -69,7 +70,7 @@ static struct msm_dcvs_core_info grp3d_core_info = {
 		.num_freq	= ARRAY_SIZE(grp3d_freq),
 	}
 };
-#endif 
+#endif /* CONFIG_MSM_DCVS */
 
 #ifdef CONFIG_MSM_BUS_SCALING
 static struct msm_bus_vectors grp3d_init_vectors[] = {
@@ -107,13 +108,13 @@ static struct msm_bus_vectors grp3d_low_vectors[] = {
 		.src = MSM_BUS_MASTER_GRAPHICS_3D,
 		.dst = MSM_BUS_SLAVE_EBI_CH0,
 		.ab = 0,
-		.ib = KGSL_CONVERT_TO_MBPS(1700),
+		.ib = KGSL_CONVERT_TO_MBPS(1500),
 	},
 	{
 		.src = MSM_BUS_MASTER_GRAPHICS_3D_PORT1,
 		.dst = MSM_BUS_SLAVE_EBI_CH0,
 		.ab = 0,
-		.ib = KGSL_CONVERT_TO_MBPS(1700),
+		.ib = KGSL_CONVERT_TO_MBPS(1500),
 	},
 };
 
@@ -199,7 +200,7 @@ static struct msm_bus_scale_pdata grp3d_bus_scale_pdata = {
 static struct resource kgsl_3d0_resources[] = {
 	{
 		.name = KGSL_3D0_REG_MEMORY,
-		.start = 0x04300000, 
+		.start = 0x04300000, /* GFX3D address */
 		.end = 0x0431ffff,
 		.flags = IORESOURCE_MEM,
 	},
@@ -215,7 +216,6 @@ static const struct kgsl_iommu_ctx kgsl_3d0_iommu0_ctxs[] = {
 	{ "gfx3d_user", 0 },
 	{ "gfx3d_priv", 1 },
 };
-
 
 static const struct kgsl_iommu_ctx kgsl_3d0_iommu1_ctxs[] = {
 	{ "gfx3d1_user", 0 },
@@ -294,7 +294,7 @@ static struct kgsl_device_platform_data kgsl_3d0_pdata = {
 	.set_grp_async = NULL,
 	.idle_timeout = HZ/10,
 	.nap_allowed = true,
-	.strtstp_sleepwake = false,
+	.strtstp_sleepwake = true,
 	.clk_map = KGSL_CLK_CORE | KGSL_CLK_IFACE | KGSL_CLK_MEM_IFACE,
 #ifdef CONFIG_MSM_BUS_SCALING
 	.bus_scale_table = &grp3d_bus_scale_pdata,
@@ -306,7 +306,7 @@ static struct kgsl_device_platform_data kgsl_3d0_pdata = {
 #endif
 };
 
-static struct platform_device device_kgsl_3d0 = {
+struct platform_device device_kgsl_3d0 = {
 	.name = "kgsl-3d0",
 	.id = 0,
 	.num_resources = ARRAY_SIZE(kgsl_3d0_resources),
